@@ -15,19 +15,22 @@ public class WaitingRoom{
     }
     public void enterWaitingRoom(Patient patient) throws InterruptedException{
         if (!availableSpaces.waitForTime(0)) {
-            System.out.println("Patient " + patient.getId() + " is waiting outside because the waiting room is full.");
-            availableSpaces.waitForTime(0);
+            System.out.println("The waiting room is full");
+            System.out.println("Patient " + patient.getId() + " is waiting outside");
+            System.out.println();
+            availableSpaces.acquire();
         }
         synchronized (lock){
             queue[in] = patient;
             in = (in + 1) % maxSpaces;
         }
-        System.out.println("Patient " + patient.getId() + " entered the waiting room.");
+        System.out.println("Patient " + patient.getId() + " entered the waiting room");
+        System.out.println();
         numberOfPatients.release();
     }
 
     public Patient takePatient() throws InterruptedException{
-        numberOfPatients.waitForTime(0);
+        numberOfPatients.acquire();
         Patient patient;
 
         synchronized (lock){

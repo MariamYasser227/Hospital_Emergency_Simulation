@@ -5,6 +5,13 @@ public class Semaphore {
         this.value = init;
     }
 
+    public synchronized void acquire() throws InterruptedException{
+        while(value <= 0){
+            wait();
+        }
+        value--;
+
+    }
 
     public synchronized boolean waitForTime(long time) {
         if (value > 0) {

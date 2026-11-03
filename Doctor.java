@@ -21,14 +21,22 @@ public class Doctor implements Runnable{
                 }
                 System.out.println("Patient " + patient.getId() + " is assigned to Doctor " + id + ".");
                 if(treatmentRoom.enterTreatmentRoom(3000)){
-                    System.out.println("Patient " + patient.getId() + " begins treatment in a treatment room acquired by Doctor " + id + ".");
-                    int treatmentTime = random.nextInt(5000);
+                    System.out.println("Patient " + patient.getId() + " begins treatment by Doctor " + id + ".");
+                    System.out.println();
+                    int treatmentTime = random.nextInt(5000) + 2000;
                     Thread.sleep(treatmentTime);
                     System.out.println("Patient " + patient.getId() + " finished treatment.");
+                    System.out.println("Doctor " + id + " is available");
+
+                    System.out.println();
                     treatmentRoom.exitTreatmentRoom();
                     System.out.println("Patient " + patient.getId() + " left the hospital.");
+                    System.out.println();
+                    patient.markAsTreated();
                 }else{
-                    System.out.println("Doctor " + id + " could not acquire a treatment room in time. Patient " + patient.getId() + " goes back to the waiting room.");
+                    System.out.println("Doctor " + id + " could not acquire a treatment room");
+                    System.out.println("Doctor is sending Patient " + patient.getId() + " back to the waiting room");
+                    System.out.println();
                     waitingRoom.enterWaitingRoom(patient);
                 }
 
